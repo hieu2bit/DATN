@@ -1,0 +1,43 @@
+# ========================
+# Python / Rasa
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+ENV/
+env/
+.rasa/
+
+# TensorFlow / ML nặng
+*.pkl
+*.h5
+*.ckpt
+*.pb
+*.pyd
+
+# ========================
+# Node / React / Angular
+node_modules/
+build/
+dist/
+.npm/
+.cache/
+.vite/
+
+# ========================
+# Java / Spring Boot
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+.idea/
+.vscode/
+
+# ========================
+# System
+.DS_Store
+Thumbs.db

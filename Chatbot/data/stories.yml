@@ -1,0 +1,75 @@
+version: "3.1"
+
+stories:
+# ====== Small talk ======
+- story: Người dùng chào hỏi
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: thank
+    - action: utter_thank
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: Người dùng cảm ơn rồi thoát
+  steps:
+    - intent: thank
+    - action: utter_thank
+    - intent: goodbye
+    - action: utter_goodbye
+
+# ====== Sản phẩm ======
+- story: Người dùng tìm áo polo Adidas màu trắng size M
+  steps:
+    - intent: inform_product
+      entities:
+        - brandName: "Adidas"
+        - categoryName: "áo polo"
+        - colorName: "trắng"
+        - sizeName: "M"
+    - action: action_suggest_products
+
+- story: Người dùng hỏi khuyến mãi
+  steps:
+    - intent: ask_promotion
+    - action: action_suggest_products
+
+- story: Người dùng tìm áo theo chất liệu cotton và màu đen
+  steps:
+    - intent: inform_product
+      entities:
+        - materialName: "cotton"
+        - colorName: "đen"
+    - action: action_suggest_products
+
+- story: Người dùng tìm áo sơ mi dài tay Aristino
+  steps:
+    - intent: inform_product
+      entities:
+        - brandName: "Aristino"
+        - categoryName: "áo sơ mi"
+        - sleeveName: "dài tay"
+    - action: action_suggest_products
+
+# ====== Tư vấn size ======
+- story: Người dùng cung cấp chiều cao và cân nặng
+  steps:
+    - intent: ask_size
+      entities:
+        - height: "175"
+        - weight: "70"
+    - action: action_suggest_size
+
+- story: Người dùng hỏi size chỉ có chiều cao
+  steps:
+    - intent: ask_size
+      entities:
+        - height: "180"
+    - action: action_suggest_size
+
+- story: Người dùng hỏi size chỉ có cân nặng
+  steps:
+    - intent: ask_size
+      entities:
+        - weight: "60"
+    - action: action_suggest_size

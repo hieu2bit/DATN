@@ -1,0 +1,42 @@
+version: "3.1"
+
+rules:
+# ====== Small talk ======
+- rule: Chào hỏi
+  steps:
+    - intent: greet
+    - action: utter_greet
+
+- rule: Tạm biệt
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- rule: Cảm ơn
+  steps:
+    - intent: thank
+    - action: utter_thank
+
+# ====== Tư vấn sản phẩm ======
+- rule: Gợi ý sản phẩm theo thuộc tính
+  steps:
+    - intent: inform_product
+    - action: action_suggest_products
+
+- rule: Gợi ý khuyến mãi
+  steps:
+    - intent: ask_promotion
+    - action: action_suggest_products
+
+# ====== Tư vấn size ======
+- rule: Tư vấn size với chiều cao cân nặng
+  steps:
+    - intent: ask_size
+    - action: action_suggest_size
+
+# ====== Trường hợp fallback ======
+- rule: Không tìm thấy sản phẩm
+  condition:
+    - active_loop: null
+  steps:
+    - action: utter_no_product_found

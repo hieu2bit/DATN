@@ -1,0 +1,113 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - thank
+  - inform_product
+  - ask_promotion
+  - ask_size
+
+entities:
+  - brandName
+  - categoryName
+  - materialName
+  - collarName
+  - sleeveName
+  - colorName
+  - sizeName
+  - height
+  - weight
+
+slots:
+  brandName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: brandName
+  categoryName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: categoryName
+  materialName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: materialName
+  collarName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: collarName
+  sleeveName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: sleeveName
+  colorName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: colorName
+  sizeName:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: sizeName
+  height:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: height
+  weight:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: weight
+
+responses:
+  utter_greet:
+    - text: "Xin chào 👋! Rất vui được gặp bạn. Mình có thể giúp bạn tìm sản phẩm hoặc tư vấn size hôm nay."
+    - text: "Hello! Mình là trợ lý ảo của Mộc Wear. Bạn muốn xem sản phẩm hay cần tư vấn size?"
+    - text: "Chào bạn! Mình có thể gợi ý sản phẩm phù hợp hoặc tư vấn size cho bạn nhé 🙂"
+
+  utter_goodbye:
+    - text: "Cảm ơn bạn đã ghé Mộc Wear, hẹn gặp lại 👋"
+    - text: "Hẹn gặp lại bạn! Chúc bạn một ngày tuyệt vời 🌞"
+    - text: "Bye! Mong sớm gặp lại bạn trong cửa hàng của chúng tôi 😄"
+
+  utter_thank:
+    - text: "Không có gì đâu 😄"
+    - text: "Rất vui được giúp bạn!"
+    - text: "Mình luôn sẵn sàng hỗ trợ bạn."
+
+  utter_ask_size:
+    - text: "Bạn cho mình biết chiều cao và cân nặng hoặc số đo để mình tư vấn size chính xác nhé."
+    - text: "Để chọn size vừa vặn, bạn vui lòng cung cấp chiều cao và cân nặng hoặc số đo cụ thể."
+    - text: "Mình có thể tư vấn size chuẩn hơn nếu biết chiều cao và cân nặng của bạn."
+
+  utter_intro:
+    - text: "Mình là trợ lý ảo của cửa hàng, có thể giúp bạn tìm sản phẩm và tư vấn size."
+    - text: "Chào bạn! Mình có thể gợi ý sản phẩm, tư vấn size, hoặc cung cấp thông tin về các sản phẩm mới."
+    - text: "Mình ở đây để giúp bạn chọn được sản phẩm phù hợp và size vừa vặn nhất."
+
+  utter_no_product_found:
+    - text: "Hiện tại mình chưa tìm thấy sản phẩm phù hợp 😢. Bạn có muốn lọc thêm theo màu sắc, size, chất liệu hoặc thương hiệu không?"
+
+actions:
+  - action_suggest_products
+  - action_suggest_size
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

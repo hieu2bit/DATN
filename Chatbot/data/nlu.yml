@@ -1,0 +1,248 @@
+version: "3.1"
+
+nlu:
+# ====== Small talk ======
+- intent: greet
+  examples: |
+    - Xin chào
+    - Chào bạn
+    - Hello
+    - Chào mừng
+    - Chào 👋
+    - Hi, mình cần tư vấn
+    - Hello, có ai ở đây không?
+
+- intent: goodbye
+  examples: |
+    - Tạm biệt
+    - Hẹn gặp lại
+    - Bye
+    - Chào nhé
+    - Mình đi đây
+    - Cảm ơn, bye
+
+- intent: thank
+  examples: |
+    - Cảm ơn
+    - Thanks
+    - Cảm ơn bạn
+    - Cảm ơn nhiều
+    - Rất cảm ơn
+    - Bạn thật tuyệt 😄
+
+# ====== Tư vấn sản phẩm ======
+- intent: inform_product
+  examples: |
+    - Mình muốn mua [Adidas](brandName) [áo polo](categoryName) màu [trắng](colorName) size [M](sizeName)
+    - Tôi cần [Puma](brandName) [áo sơ mi](categoryName) [cotton](materialName) size [L](sizeName)
+    - Có mẫu [Aristino](brandName) [áo polo](categoryName) màu [xám](colorName) size [XL](sizeName) không?
+    - Mình thích áo [Puma](brandName) chất liệu [polyester](materialName), bạn có không?
+    - Shop có [Adidas](brandName) áo [dài tay](sleeveName) màu [xanh navy](colorName) không?
+    - Cho mình xem áo màu [đen](colorName)
+    - Mình muốn tìm [Reebok](brandName) áo [ngắn tay](sleeveName)
+    - Tôi muốn mua áo size [S](sizeName)
+    - Bạn có áo màu [be](colorName) không?
+    - Mình cần áo [dài tay](sleeveName)
+    - Shop có [Puma](brandName) không?
+    - Áo [Puma](brandName)
+    - Áo màu [trắng](colorName)
+    - Áo size [M](sizeName)
+    - [Reebok](brandName) áo polo
+    - [Aristino](brandName) áo ngắn tay màu [xám](colorName)
+    - Mình muốn [Adidas](brandName) áo cotton
+    - Cho mình xem [Puma](brandName) áo dài tay
+    - Áo [đen](colorName)
+    - Áo [be](colorName) size [L](sizeName)
+    - Mình muốn áo [Cotton](materialName) [ngắn tay](sleeveName) [cổ tròn](collarName)
+    - Có [áo polo](categoryName) [Polyester](materialName) [lửng tay](sleeveName) không?
+    - Cho mình xem [áo sơ mi](categoryName) [Jean](materialName) [cổ bẻ](collarName) màu [xám](colorName)
+    - Mình cần áo [thun lạnh](materialName) [sát nách](sleeveName) size [L](sizeName)
+    - Có [áo thun](categoryName) [cổ chữ V](collarName) [dài tay](sleeveName) màu [đen](colorName) không?
+
+# ====== Hỏi khuyến mãi ======
+- intent: ask_promotion
+  examples: |
+    - Có khuyến mãi gì không?
+    - Sản phẩm nào đang sale?
+    - Shop có ưu đãi gì hôm nay?
+    - Áo sơ mi có giảm giá không?
+    - Có chương trình khuyến mãi nào cho áo polo không?
+    - Giảm giá hiện tại là gì?
+
+# ====== Tư vấn size ======
+- intent: ask_size
+  examples: |
+    - Mình cao [175](height)cm, nặng [70](weight)kg thì mặc size gì?
+    - Người cao [168](height)cm, nặng [60](weight)kg thì nên chọn size nào?
+    - Size [M](sizeName) có vừa với người cao [180](height)cm không?
+    - Áo [L](sizeName) có rộng lắm không?
+    - Bạn tư vấn size cho người cao [160](height)cm, nặng [55](weight)kg
+    - Nếu cao [172](height)cm, [65](weight)kg thì nên chọn size gì?
+    - Mình hơi gầy, cao [174](height)cm thì mặc size nào vừa?
+    - Người cao [182](height)cm, nặng [80](weight)kg nên mặc size nào?
+    - Mình cao [1m75](height), nặng [70kg](weight) nên chọn size nào?
+    - Cao [169](height)cm nặng [58](weight) thì size gì?
+    - Cao [169](height) cm nặng [58](weight) kg thì size gì?
+    - Cao [169cm](height) nặng [58kg](weight) thì size gì?
+
+# ====== Regex ======
+- lookup: height
+  examples: |
+    - 1m[0-9]{2}
+    - [1][5-9][0-9]\s?cm
+    - 1\.[0-9]{2}m
+    - [1][6-9][0-9]
+
+- lookup: weight
+  examples: |
+    - [4-9][0-9]\s?kg
+    - [4-9][0-9]
+
+# ====== Lookup tables ======
+- lookup: brandName
+  examples: |
+    - Adidas
+    - Reebok
+    - Puma
+    - Aristino
+    - Owen
+    - Nike
+
+- lookup: categoryName
+  examples: |
+    - áo polo
+    - áo sơ mi
+    - áo thun
+    - áo khoác
+    - quần jeans
+    - quần tây
+
+- lookup: colorName
+  examples: |
+    - trắng
+    - đen
+    - đỏ
+    - xanh
+    - xanh navy
+    - xanh lá
+    - vàng
+    - be
+    - tím
+    - xám
+    - dark navy
+
+- lookup: sizeName
+  examples: |
+    - S
+    - M
+    - L
+    - XL
+    - 2XL
+    - 3XL
+
+- lookup: materialName
+  examples: |
+    - Thêu
+    - Vải thun lạnh
+    - Nỉ
+    - Jean
+    - Len
+    - Polyester
+    - Cotton
+
+- lookup: sleeveName
+  examples: |
+    - Lửng tay
+    - Sát nách
+    - Dài tay
+    - Ngắn tay
+
+- lookup: collarName
+  examples: |
+    - Cổ lọ
+    - Cổ chữ V
+    - Cổ bẻ
+    - Cổ tim
+    - Cổ tròn
+
+# ====== Synonyms ======
+- synonym: áo sơ mi
+  examples: |
+    - sơ mi
+
+- synonym: áo khoác
+  examples: |
+    - khoác
+    - áo ấm
+    - ấm
+
+- synonym: Vải thun lạnh
+  examples: |
+    - thun lạnh
+    - vải lạnh
+
+- synonym: Nỉ
+  examples: |
+    - ni
+
+- synonym: Jean
+  examples: |
+    - denim
+    - áo jean
+    - chất jean
+
+- synonym: Len
+  examples: |
+    - len dệt
+    - dệt kim
+
+- synonym: Polyester
+  examples: |
+    - poly
+
+- synonym: Cotton
+  examples: |
+    - vải cotton
+    - cotton 100%
+    - cottton
+    - cô tông
+
+- synonym: Lửng tay
+  examples: |
+    - tay lửng
+
+- synonym: Sát nách
+  examples: |
+    - ba lỗ
+    - tank top
+
+- synonym: Dài tay
+  examples: |
+    - tay dài
+    - dài tay áo
+
+- synonym: Ngắn tay
+  examples: |
+    - tay ngắn
+    - short sleeve
+
+- synonym: Cổ chữ V
+  examples: |
+    - cổ v
+    - v-neck
+    - chữ v
+
+- synonym: Cổ bẻ
+  examples: |
+    - cổ polo
+    - cổ áo polo
+
+- synonym: Cổ tròn
+  examples: |
+    - cổ bo tròn
+    - crew neck
+
+- synonym: Cổ lọ
+  examples: |
+    - turtle neck
+    - mock neck
