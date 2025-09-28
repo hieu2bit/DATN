@@ -7,10 +7,13 @@ nlu:
     - Xin chào
     - Chào bạn
     - Hello
-    - Chào mừng
-    - Chào 👋
-    - Hi, mình cần tư vấn
-    - Hello, có ai ở đây không?
+    - Hi
+    - Ê shop
+    - Alo
+    - Shop ơi
+    - Có ai ở đây không?
+    - Chào
+    - Hi shop
 
 - intent: goodbye
   examples: |
@@ -20,85 +23,195 @@ nlu:
     - Chào nhé
     - Mình đi đây
     - Cảm ơn, bye
+    - Good night
+    - Hẹn hôm khác
 
 - intent: thank
   examples: |
     - Cảm ơn
     - Thanks
-    - Cảm ơn bạn
-    - Cảm ơn nhiều
+    - Thank you
+    - Cảm ơn shop
     - Rất cảm ơn
-    - Bạn thật tuyệt 😄
+    - Bạn thật tuyệt
+    - Ok cảm ơn
+    - Thanks shop
 
 # ====== Tư vấn sản phẩm ======
 - intent: inform_product
   examples: |
-    - Mình muốn mua [Adidas](brandName) [áo polo](categoryName) màu [trắng](colorName) size [M](sizeName)
-    - Tôi cần [Puma](brandName) [áo sơ mi](categoryName) [cotton](materialName) size [L](sizeName)
-    - Có mẫu [Aristino](brandName) [áo polo](categoryName) màu [xám](colorName) size [XL](sizeName) không?
-    - Mình thích áo [Puma](brandName) chất liệu [polyester](materialName), bạn có không?
-    - Shop có [Adidas](brandName) áo [dài tay](sleeveName) màu [xanh navy](colorName) không?
-    - Cho mình xem áo màu [đen](colorName)
-    - Mình muốn tìm [Reebok](brandName) áo [ngắn tay](sleeveName)
-    - Tôi muốn mua áo size [S](sizeName)
-    - Bạn có áo màu [be](colorName) không?
-    - Mình cần áo [dài tay](sleeveName)
-    - Shop có [Puma](brandName) không?
-    - Áo [Puma](brandName)
-    - Áo màu [trắng](colorName)
-    - Áo size [M](sizeName)
-    - [Reebok](brandName) áo polo
-    - [Aristino](brandName) áo ngắn tay màu [xám](colorName)
-    - Mình muốn [Adidas](brandName) áo cotton
-    - Cho mình xem [Puma](brandName) áo dài tay
-    - Áo [đen](colorName)
-    - Áo [be](colorName) size [L](sizeName)
-    - Mình muốn áo [Cotton](materialName) [ngắn tay](sleeveName) [cổ tròn](collarName)
-    - Có [áo polo](categoryName) [Polyester](materialName) [lửng tay](sleeveName) không?
-    - Cho mình xem [áo sơ mi](categoryName) [Jean](materialName) [cổ bẻ](collarName) màu [xám](colorName)
-    - Mình cần áo [thun lạnh](materialName) [sát nách](sleeveName) size [L](sizeName)
-    - Có [áo thun](categoryName) [cổ chữ V](collarName) [dài tay](sleeveName) màu [đen](colorName) không?
-
-# ====== Hỏi khuyến mãi ======
-- intent: ask_promotion
-  examples: |
-    - Có khuyến mãi gì không?
-    - Sản phẩm nào đang sale?
-    - Shop có ưu đãi gì hôm nay?
-    - Áo sơ mi có giảm giá không?
-    - Có chương trình khuyến mãi nào cho áo polo không?
-    - Giảm giá hiện tại là gì?
+    - áo [đỏ](colorName)
+    - áo màu [đen](colorName)
+    - áo [xanh navy](colorName)
+    - size [M](sizeName)
+    - áo size [L](sizeName)
+    - [Nike](brandName)
+    - [Adidas](brandName) áo
+    - [Owen](brandName) có không?
+    - áo [cotton](materialName)
+    - áo chất [Polyester](materialName)
+    - áo [ngắn tay](sleeveName)
+    - áo [dài tay](sleeveName)
+    - áo [cổ bẻ](collarName)
+    - áo [cổ tròn](collarName)
+    - áo sơ mi
+    - áo polo
+    - áo khoác
+    - áo [đen](colorName) size [M](sizeName)
+    - áo [xám](colorName) [ngắn tay](sleeveName)
+    - [Nike](brandName) áo [trắng](colorName)
+    - áo sơ mi [đen](colorName)
+    - áo [cổ bẻ](collarName) [trắng](colorName)
+    - áo [cotton](materialName) size [XL](sizeName)
+    - [Adidas](brandName) [áo thun](categoryName)
+    - [Reebok](brandName) áo [polo](categoryName)
+    - [Owen](brandName) áo [dài tay](sleeveName)
+    - áo [Len](materialName) màu [xanh lá](colorName)
+    - [Puma](brandName) áo [đen](colorName) size [M](sizeName)
+    - [Nike](brandName) áo sơ mi [trắng](colorName)
+    - áo [cotton](materialName) [ngắn tay](sleeveName) màu [xám](colorName)
+    - áo polo [đen](colorName) [cổ bẻ](collarName)
+    - áo khoác [xanh navy](colorName) size [L](sizeName)
+    - [Aristino](brandName) áo [dài tay](sleeveName) [cotton](materialName)
+    - áo [Jean](materialName) [cổ chữ V](collarName) màu [xanh](colorName)
+    - [Owen](brandName) áo polo [be](colorName)
+    - Mình muốn mua [Adidas](brandName) [áo polo](categoryName) màu [trắng](colorName) size [M](sizeName) [cotton](materialName) [cổ bẻ](collarName) [ngắn tay](sleeveName)
+    - Có mẫu [Aristino](brandName) [áo sơ mi](categoryName) màu [đen](colorName) size [L](sizeName) chất [Polyester](materialName) [cổ tròn](collarName) [dài tay](sleeveName) không?
+    - Shop có [Nike](brandName) [áo khoác](categoryName) màu [xanh navy](colorName) size [XL](sizeName) [len](materialName) [cổ chữ V](collarName) [dài tay](sleeveName) không?
+    - Cho mình xem [Owen](brandName) [áo thun](categoryName) [Jean](materialName) màu [xám](colorName) [cổ lọ](collarName) size [2XL](sizeName) [sát nách](sleeveName)
+    - cho mình áo [đen](colorName) size [L](sizeName)
+    - có áo [Puma](brandName) màu [trắng](colorName) không?
+    - mình cần áo [cotton](materialName) [ngắn tay](sleeveName)
+    - shop ơi có áo [Aristino](brandName) size [M](sizeName) không?
+    - tư vấn giúp áo [Nike](brandName) [xanh navy](colorName) [cổ tròn](collarName)
+    - mình thích áo [polyester](materialName) [dài tay](sleeveName) size [XL](sizeName)
 
 # ====== Tư vấn size ======
 - intent: ask_size
   examples: |
-    - Mình cao [175](height)cm, nặng [70](weight)kg thì mặc size gì?
-    - Người cao [168](height)cm, nặng [60](weight)kg thì nên chọn size nào?
+    - Size [M](sizeName)
+    - Áo [L](sizeName) có rộng không?
+    - Cao [160](height)cm thì mặc size gì?
+    - Nặng [55kg](weight) thì mặc size nào?
+    - [65kg](weight) mặc vừa size nào?
+    - Cao [170](height) nặng [60](weight) thì mặc gì?
+    - [180](height) thì mặc size nào?
+    - [70kg](weight) thì vừa size nào?
+    - Mình cao [175](height)cm, nặng [70kg](weight) thì mặc size gì?
+    - Người cao [168](height)cm, nặng [60kg](weight) thì nên chọn size nào?
     - Size [M](sizeName) có vừa với người cao [180](height)cm không?
-    - Áo [L](sizeName) có rộng lắm không?
-    - Bạn tư vấn size cho người cao [160](height)cm, nặng [55](weight)kg
-    - Nếu cao [172](height)cm, [65](weight)kg thì nên chọn size gì?
-    - Mình hơi gầy, cao [174](height)cm thì mặc size nào vừa?
-    - Người cao [182](height)cm, nặng [80](weight)kg nên mặc size nào?
+    - Nếu cao [172](height)cm, [65kg](weight) thì nên chọn size gì?
+    - Người cao [182](height)cm, nặng [80kg](weight) nên mặc size nào?
     - Mình cao [1m75](height), nặng [70kg](weight) nên chọn size nào?
-    - Cao [169](height)cm nặng [58](weight) thì size gì?
     - Cao [169](height) cm nặng [58](weight) kg thì size gì?
     - Cao [169cm](height) nặng [58kg](weight) thì size gì?
+    - Cân nặng [50](weight) cân thì mặc size nào?
+    - Mình nặng [90](weight) kí thì size gì?
+    - Nếu nặng [100kg](weight) thì shop có size không?
+    - Cao [1m60](height) thì vừa size nào?
+    - Với chiều cao [185](height) thì mặc size gì?
 
-# ====== Regex ======
+# ====== Regex hỗ trợ ======
+- regex: height
+  examples: |
+    - [1][5-9][0-9]\s?cm
+    - 1m[0-9]{2}
+    - 1\.[0-9]{2}m
+    - [1][5-9][0-9]
+
+- regex: weight
+  examples: |
+    - [3-9][0-9](\s)?(kg|kí|ký|cân)?
+    - 1[0-4][0-9](\s)?(kg|kí|ký|cân)?
+
+# ====== Lookup tables ======
 - lookup: height
   examples: |
-    - 1m[0-9]{2}
-    - [1][5-9][0-9]\s?cm
-    - 1\.[0-9]{2}m
-    - [1][6-9][0-9]
+    - 150
+    - 150cm
+    - 1m50
+    - 155
+    - 155cm
+    - 1m55
+    - 160
+    - 160cm
+    - 1m60
+    - 165
+    - 165cm
+    - 1m65
+    - 170
+    - 170cm
+    - 1m70
+    - 175
+    - 175cm
+    - 1m75
+    - 180
+    - 180cm
+    - 1m80
+    - 185
+    - 185cm
+    - 1m85
+    - 190
+    - 190cm
+    - 1m90
+    - 195
+    - 195cm
+    - 1m95
+    - 200
+    - 200cm
+    - 2m00
 
 - lookup: weight
   examples: |
-    - [4-9][0-9]\s?kg
-    - [4-9][0-9]
+    - 40
+    - 40kg
+    - 40 kí
+    - 40 cân
+    - 45
+    - 45kg
+    - 45 kí
+    - 50
+    - 50kg
+    - 50 kí
+    - 55
+    - 55kg
+    - 55 kí
+    - 60
+    - 60kg
+    - 60 kí
+    - 65
+    - 65kg
+    - 65 kí
+    - 70
+    - 70kg
+    - 70 kí
+    - 75
+    - 75kg
+    - 75 kí
+    - 80
+    - 80kg
+    - 80 kí
+    - 85
+    - 85kg
+    - 85 kí
+    - 90
+    - 90kg
+    - 90 kí
+    - 95
+    - 95kg
+    - 95 kí
+    - 100
+    - 100kg
+    - 100 kí
 
-# ====== Lookup tables ======
+# ====== Synonyms ======
+- synonym: kg
+  examples: |
+    - kí
+    - ký
+    - cân
+    - kilogram
+
 - lookup: brandName
   examples: |
     - Adidas
@@ -107,6 +220,7 @@ nlu:
     - Aristino
     - Owen
     - Nike
+    - Torato
 
 - lookup: categoryName
   examples: |

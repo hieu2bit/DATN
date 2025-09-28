@@ -2,10 +2,27 @@ version: "3.1"
 
 stories:
 # ====== Small talk ======
-- story: Người dùng chào hỏi
+- story: Người dùng chào hỏi và hỏi sản phẩm
   steps:
     - intent: greet
     - action: utter_greet
+    - action: utter_intro
+    - intent: inform_product
+    - action: action_suggest_products
+
+- story: Người dùng chào hỏi rồi hỏi size
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: utter_intro
+    - intent: ask_size
+    - action: action_suggest_size
+
+- story: Người dùng chào hỏi, cảm ơn, rồi thoát
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: utter_intro
     - intent: thank
     - action: utter_thank
     - intent: goodbye
@@ -18,58 +35,54 @@ stories:
     - intent: goodbye
     - action: utter_goodbye
 
-# ====== Sản phẩm ======
-- story: Người dùng tìm áo polo Adidas màu trắng size M
+# ====== Tư vấn sản phẩm ======
+- story: Người dùng chỉ hỏi sản phẩm ngắn gọn
   steps:
     - intent: inform_product
-      entities:
-        - brandName: "Adidas"
-        - categoryName: "áo polo"
-        - colorName: "trắng"
-        - sizeName: "M"
     - action: action_suggest_products
 
-- story: Người dùng hỏi khuyến mãi
+- story: Người dùng hỏi sản phẩm sau khi cảm ơn
   steps:
-    - intent: ask_promotion
+    - intent: thank
+    - action: utter_thank
+    - intent: inform_product
     - action: action_suggest_products
 
-- story: Người dùng tìm áo theo chất liệu cotton và màu đen
+- story: Người dùng hỏi sản phẩm rồi hỏi size
   steps:
     - intent: inform_product
-      entities:
-        - materialName: "cotton"
-        - colorName: "đen"
     - action: action_suggest_products
-
-- story: Người dùng tìm áo sơ mi dài tay Aristino
-  steps:
-    - intent: inform_product
-      entities:
-        - brandName: "Aristino"
-        - categoryName: "áo sơ mi"
-        - sleeveName: "dài tay"
-    - action: action_suggest_products
+    - intent: ask_size
+    - action: action_suggest_size
 
 # ====== Tư vấn size ======
-- story: Người dùng cung cấp chiều cao và cân nặng
+- story: Người dùng hỏi size đầy đủ
   steps:
     - intent: ask_size
-      entities:
-        - height: "175"
-        - weight: "70"
     - action: action_suggest_size
 
-- story: Người dùng hỏi size chỉ có chiều cao
+- story: Người dùng hỏi size rồi cảm ơn
   steps:
     - intent: ask_size
-      entities:
-        - height: "180"
     - action: action_suggest_size
+    - intent: thank
+    - action: utter_thank
 
-- story: Người dùng hỏi size chỉ có cân nặng
+- story: Người dùng hỏi size rồi thoát
   steps:
     - intent: ask_size
-      entities:
-        - weight: "60"
     - action: action_suggest_size
+    - intent: goodbye
+    - action: utter_goodbye
+
+# ====== Kết hợp ======
+- story: Người dùng hỏi sản phẩm và size trong cùng cuộc hội thoại
+  steps:
+    - intent: inform_product
+    - action: action_suggest_products
+    - intent: ask_size
+    - action: action_suggest_size
+    - intent: thank
+    - action: utter_thank
+    - intent: goodbye
+    - action: utter_goodbye

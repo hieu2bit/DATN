@@ -1,10 +1,12 @@
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import EventType, SessionStarted, ActionExecuted
 import requests
+import random
 
 
-# --------- Gợi ý sản phẩm / khuyến mãi ----------
+# --------- Gợi ý sản phẩm ----------
 class ActionSuggestProducts(Action):
     def name(self) -> Text:
         return "action_suggest_products"
@@ -16,7 +18,7 @@ class ActionSuggestProducts(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
 
-        # Các thuộc tính lọc sản phẩm
+        # Các thuộc tính filter (reset mỗi lần gọi)
         filter_fields = [
             "brandName",
             "categoryName",
@@ -27,7 +29,10 @@ class ActionSuggestProducts(Action):
             "sizeName",
         ]
 
+        # Reset tất cả về rỗng
         params = {k: "" for k in filter_fields}
+
+        # Chỉ lấy entity từ câu hỏi hiện tại
         for ent in tracker.latest_message.get("entities", []):
             et = ent.get("entity")
             if et in params:
@@ -44,45 +49,59 @@ class ActionSuggestProducts(Action):
             )
             resp.raise_for_status()
             products = resp.json().get("content", [])
-        except Exception as e:
+        except Exception:
             dispatcher.utter_message(
-                text=f"❌ Xin lỗi, hiện tại hệ thống không lấy được danh sách sản phẩm. Lý do: {str(e)}"
+                text="❌ Xin lỗi, hiện tại hệ thống đang gặp sự cố nên chưa thể hiển thị sản phẩm. "
+                     "Bạn vui lòng thử lại sau ít phút nhé."
             )
             return []
 
         if not products:
             dispatcher.utter_message(
-                text="😢 Mình chưa tìm thấy sản phẩm phù hợp. Bạn có thể thử chọn thêm màu sắc, size, chất liệu hoặc thương hiệu khác nhé!"
+                text="😔 Mình chưa tìm thấy sản phẩm phù hợp. "
+                     "Bạn muốn mình gợi ý thêm theo màu sắc, thương hiệu hay size không?"
             )
             return []
 
-        # Format kết quả
-        msg = "✨ Đây là một vài gợi ý từ **Mộc Wear** cho bạn:\n\n"
+        # Gợi ý sản phẩm
+        msg = random.choice([
+            "✨ Đây là một vài gợi ý từ **MộcWear** dành cho bạn:",
+            "💡 Mình tìm được những sản phẩm phù hợp, bạn tham khảo nhé:",
+            "📌 Dưới đây là các sản phẩm nổi bật theo yêu cầu của bạn:"
+        ]) + "\n\n"
+
         for i, p in enumerate(products, 1):
             name = p.get("nameProduct", "Sản phẩm")
             code = p.get("codeProduct", "")
-            price = p.get("salePrice", 0)
+            price = int (p.get("salePrice", 0))
             promo = p.get("promotionPercent", 0)
             sold = p.get("quantitySaled", 0)
 
+            # Nếu có khuyến mãi
             if promo and promo > 0:
                 final_price = int(price * (100 - promo) / 100)
                 price_text = f"💰 Giá: **{final_price:,}đ**  (~~{price:,}đ~~ *-{promo}%*)"
             else:
                 price_text = f"💰 Giá: **{price:,}đ**"
 
+            # Format 1 sản phẩm
             msg += (
-                f"{i}. 🧾 **[{name}](http://localhost:5173/view-product/{code})**\n"
-                f"{price_text}\n"
-                f"📦 Đã bán: {sold}\n\n"
+                f"**[{name}](http://localhost:5173/view-product/{code})**  \n"
+                f"{price_text}  \n"
+                f"📦 Đã bán: {sold} \n\n"
             )
 
-        msg += "👉 Bạn có muốn mình lọc thêm theo màu sắc, chất liệu hoặc khoảng giá không?"
-        dispatcher.utter_message(text=msg)
+        msg += random.choice([
+            "👉 Bạn có muốn mình lọc thêm theo **màu sắc**, **chất liệu** hoặc **khoảng giá** không?",
+            "🛒 Bạn có muốn tham khảo thêm nhiều sản phẩm khác không?",
+            "💡 Nếu muốn, bạn có thể cho mình thêm thông tin để lọc sản phẩm chính xác hơn."
+        ])
+
+        dispatcher.utter_message(text=msg.strip())
         return []
 
 
-# --------- Tư vấn size theo chiều cao / cân nặng ----------
+# --------- Tư vấn size ----------
 class ActionSuggestSize(Action):
     def name(self) -> Text:
         return "action_suggest_size"
@@ -98,7 +117,6 @@ class ActionSuggestSize(Action):
         weight_val = next(tracker.get_latest_entity_values("weight"), None)
 
         def normalize(value: Text, unit: str) -> int | None:
-            """Chuẩn hoá số đo thành integer cm/kg."""
             if not value:
                 return None
             s = str(value).lower().replace("cm", "").replace("kg", "").replace("m", "")
@@ -116,7 +134,7 @@ class ActionSuggestSize(Action):
         h = normalize(height_val, "height")
         w = normalize(weight_val, "weight")
 
-        # Bảng size chuẩn (tham khảo)
+        # Bảng size tham khảo
         size_guide = [
             {"size": "S",  "height": (160, 166), "weight": (50, 60)},
             {"size": "M",  "height": (167, 172), "weight": (61, 67)},
@@ -125,32 +143,36 @@ class ActionSuggestSize(Action):
             {"size": "2XL","height": (186, 195), "weight": (86, 100)},
         ]
 
-        # ===== 1. Có cả chiều cao và cân nặng =====
+        # 1. Có cả chiều cao và cân nặng
         if h and w:
             for g in size_guide:
                 if g["height"][0] <= h <= g["height"][1] and g["weight"][0] <= w <= g["weight"][1]:
                     dispatcher.utter_message(
-                        text=f"👉 Với chiều cao **{h}cm** và cân nặng **{w}kg**, size phù hợp nhất là **{g['size']}** 👍"
+                        text=random.choice([
+                            f"📏 Với chiều cao **{h}cm** và cân nặng **{w}kg**, size phù hợp nhất là **{g['size']}** 👍",
+                            f"👉 Số đo **{h}cm/{w}kg** → size gợi ý: **{g['size']}**.",
+                            f"👌 Với thông số của bạn (**{h}cm/{w}kg**), mình khuyên chọn size **{g['size']}**."
+                        ])
                     )
                     return []
-            # Ngoài bảng → gợi ý gần nhất
+
             if h > 195 or w > 100:
                 dispatcher.utter_message(
-                    text=f"⚠️ Với số đo **{h}cm/{w}kg**, bạn nên thử **2XL hoặc lớn hơn**. "
-                         "Để chắc chắn, bạn có thể thử trực tiếp tại cửa hàng nhé!"
+                    text="⚠️ Với số đo này, bạn nên chọn size **2XL hoặc lớn hơn**. "
+                         "Tốt nhất bạn nên thử trực tiếp tại cửa hàng để chắc chắn hơn."
                 )
             elif h < 160 or w < 50:
                 dispatcher.utter_message(
-                    text=f"🤔 Với số đo **{h}cm/{w}kg**, size **S** có thể vừa. "
-                         "Nếu thích thoải mái hơn thì có thể thử **M**."
+                    text="🤔 Với số đo này, size **S** có thể phù hợp. "
+                         "Nếu muốn thoải mái hơn, bạn có thể thử size **M**."
                 )
             else:
                 dispatcher.utter_message(
-                    text=f"👉 Với **{h}cm/{w}kg**, size tham khảo là **L hoặc XL**, "
-                         "tùy vào dáng người và sở thích mặc ôm hay rộng."
+                    text="👉 Số đo của bạn nằm giữa các khoảng size. "
+                         "Bạn có thể thử **L hoặc XL**, tùy vào dáng người và sở thích mặc ôm hay rộng."
                 )
 
-        # ===== 2. Chỉ có chiều cao =====
+        # 2. Chỉ có chiều cao
         elif h and not w:
             if h < 165:
                 size = "S hoặc M"
@@ -162,10 +184,10 @@ class ActionSuggestSize(Action):
                 size = "XL hoặc 2XL"
             dispatcher.utter_message(
                 text=f"📏 Với chiều cao **{h}cm**, size tham khảo là **{size}**. "
-                     "Nếu bạn cho mình thêm cân nặng thì mình sẽ tư vấn chính xác hơn 👍"
+                     "Nếu bạn cho mình thêm cân nặng thì mình sẽ tư vấn chuẩn hơn."
             )
 
-        # ===== 3. Chỉ có cân nặng =====
+        # 3. Chỉ có cân nặng
         elif w and not h:
             if w < 55:
                 size = "S"
@@ -179,13 +201,43 @@ class ActionSuggestSize(Action):
                 size = "2XL"
             dispatcher.utter_message(
                 text=f"⚖️ Với cân nặng **{w}kg**, size tham khảo là **{size}**. "
-                     "Nếu bạn cho mình thêm chiều cao thì sẽ chuẩn hơn nữa."
+                     "Nếu có thêm chiều cao, mình sẽ tư vấn chính xác hơn nhé."
             )
 
-        # ===== 4. Không có gì =====
+        # 4. Không có thông tin
         else:
             dispatcher.utter_message(
-                text="📏 Bạn vui lòng cho mình biết **chiều cao (cm)** và/hoặc **cân nặng (kg)** để mình tư vấn size phù hợp nhé."
+                text="📌 Bạn vui lòng cho mình biết **chiều cao (cm)** và/hoặc **cân nặng (kg)** để mình tư vấn size phù hợp nhất nhé."
             )
 
         return []
+class ActionSessionStart(Action):
+    def name(self) -> Text:
+        return "action_session_start"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any]
+    ) -> List[EventType]:
+        events: List[EventType] = [SessionStarted()]
+
+        # Lấy danh sách các câu trong domain
+        greet_responses = domain["responses"].get("utter_greet", [])
+        intro_responses = domain["responses"].get("utter_intro", [])
+
+        # Chọn ngẫu nhiên một câu từ mỗi nhóm
+        if greet_responses:
+            greet_text = random.choice(greet_responses).get("text", "")
+            if greet_text:
+                dispatcher.utter_message(text=greet_text)
+
+        if intro_responses:
+            intro_text = random.choice(intro_responses).get("text", "")
+            if intro_text:
+                dispatcher.utter_message(text=intro_text)
+
+        # Quay lại trạng thái lắng nghe
+        events.append(ActionExecuted("action_listen"))
+        return events

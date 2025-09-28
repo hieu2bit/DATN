@@ -26,10 +26,12 @@ const ProductList = () => {
     color: "",
     size: "",
     sleeve: "",
+    sortBy: "createdDate",
+    sortDir: "desc",
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const pageSize = 12; // Hiển thị 15 sản phẩm trên mỗi trang
+  const pageSize = 12; // Hiển thị 12 sản phẩm trên mỗi trang
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
@@ -171,6 +173,8 @@ const ProductList = () => {
           colorIds: filterState.color ? [filterState.color] : [],
           sizeIds: filterState.size ? [filterState.size] : [],
           sleeveIds: filterState.sleeve ? [filterState.sleeve] : [],
+          sortBy: "createdDate",
+          sortDir: "desc",
         });
         setProducts(response?.content || response?.data || []);
         setTotalPages(response?.totalPages || 1);
@@ -202,6 +206,8 @@ const ProductList = () => {
       color: "",
       size: "",
       sleeve: "",
+      sortBy: "createdDate",
+      sortDir: "desc",
     });
     setCurrentPage(0);
   };

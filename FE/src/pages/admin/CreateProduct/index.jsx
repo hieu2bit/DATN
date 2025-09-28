@@ -146,7 +146,7 @@ export default function CreateProduct() {
         quantity: generateData.quantity
           ? parseInt(generateData.quantity)
           : null,
-        description: generateData.description || "",
+        description: generateData.description,
       };
 
       await ProductDetailService.generateProductDetails(productDetailData);
@@ -388,7 +388,7 @@ export default function CreateProduct() {
               </div>
 
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-black mb-1">
+                <label className="block text-xs font-medium text-black mb-1 w-100">
                   Mô tả (không bắt buộc)
                 </label>
                 <textarea
@@ -397,7 +397,7 @@ export default function CreateProduct() {
                   onChange={handleInputChange}
                   className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Nhập mô tả (tùy chọn)"
-                  maxLength={500}
+                  maxLength={1024}
                 />
               </div>
             </div>

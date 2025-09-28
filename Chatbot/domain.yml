@@ -5,7 +5,6 @@ intents:
   - goodbye
   - thank
   - inform_product
-  - ask_promotion
   - ask_size
 
 entities:
@@ -77,34 +76,49 @@ slots:
 
 responses:
   utter_greet:
-    - text: "Xin chào 👋! Rất vui được gặp bạn. Mình có thể giúp bạn tìm sản phẩm hoặc tư vấn size hôm nay."
-    - text: "Hello! Mình là trợ lý ảo của Mộc Wear. Bạn muốn xem sản phẩm hay cần tư vấn size?"
-    - text: "Chào bạn! Mình có thể gợi ý sản phẩm phù hợp hoặc tư vấn size cho bạn nhé 🙂"
-
-  utter_goodbye:
-    - text: "Cảm ơn bạn đã ghé Mộc Wear, hẹn gặp lại 👋"
-    - text: "Hẹn gặp lại bạn! Chúc bạn một ngày tuyệt vời 🌞"
-    - text: "Bye! Mong sớm gặp lại bạn trong cửa hàng của chúng tôi 😄"
-
-  utter_thank:
-    - text: "Không có gì đâu 😄"
-    - text: "Rất vui được giúp bạn!"
-    - text: "Mình luôn sẵn sàng hỗ trợ bạn."
-
-  utter_ask_size:
-    - text: "Bạn cho mình biết chiều cao và cân nặng hoặc số đo để mình tư vấn size chính xác nhé."
-    - text: "Để chọn size vừa vặn, bạn vui lòng cung cấp chiều cao và cân nặng hoặc số đo cụ thể."
-    - text: "Mình có thể tư vấn size chuẩn hơn nếu biết chiều cao và cân nặng của bạn."
+    - text: "Xin chào 👋! Bạn muốn mình gợi ý 🛍️ sản phẩm hay tư vấn 📏 size trước nào?"
+    - text: "Hello ✨! Đây là trợ lý ảo của MộcWear 🤖. Bạn thích xem áo mới 🆕 hay muốn tìm size phù hợp hơn?"
+    - text: "Chào bạn 😍! Hôm nay bạn muốn mình hỗ trợ tìm áo 👕 hay tư vấn size 📐 ngay bây giờ?"
+    - text: "Rất vui được gặp bạn 💖! MộcWear có thể giúp bạn tìm sản phẩm 💎 hoặc chọn size chuẩn 📏."
+    - text: "👋 Xin chào! Bạn muốn lướt qua các mẫu áo hot trend 🔥 hay để mình tư vấn size phù hợp cho bạn?"
+    - text: "Hi hi 😄! Bạn muốn mình show áo mới về 🛒 hay chọn size giúp bạn cho chuẩn dáng?"
+    - text: "Xin chào quý khách 🌸! Bạn cần tìm sản phẩm theo thương hiệu 🏷️, màu sắc 🎨, hay muốn hỏi về size trước?"
+    - text: "💬 Chào bạn! Bạn muốn mua áo polo, sơ mi, khoác… 🧥 hay để mình đoán size cho bạn trước?"
+    - text: "🎉 Xin chào! Hôm nay bạn muốn săn khuyến mãi 💰 sản phẩm hay mình tư vấn chọn size giúp bạn?"
+    - text: "Hey 👋! Hãy cho mình biết, bạn quan tâm đến việc tìm áo hợp gu 🎯 hay chọn size hợp dáng 🕺?"
 
   utter_intro:
-    - text: "Mình là trợ lý ảo của cửa hàng, có thể giúp bạn tìm sản phẩm và tư vấn size."
-    - text: "Chào bạn! Mình có thể gợi ý sản phẩm, tư vấn size, hoặc cung cấp thông tin về các sản phẩm mới."
-    - text: "Mình ở đây để giúp bạn chọn được sản phẩm phù hợp và size vừa vặn nhất."
+    - text: "🤖 Mình có thể giúp bạn tìm sản phẩm theo thương hiệu, màu sắc, chất liệu, size… hoặc tư vấn size phù hợp với chiều cao cân nặng của bạn."
+    - text: "🛍️ Bạn có thể hỏi mình về áo polo, sơ mi, áo khoác… theo thương hiệu như Adidas, Nike, Aristino, v.v."
+    - text: "📏 Ngoài ra, mình cũng có thể tư vấn size theo chiều cao và cân nặng để bạn chọn được sản phẩm vừa vặn nhất."
+    - text: "💡 Ví dụ, bạn có thể thử hỏi: *Áo polo Adidas màu đen size M* hoặc *Mình cao 1m70 nặng 65kg thì mặc size gì?*"
 
-  utter_no_product_found:
-    - text: "Hiện tại mình chưa tìm thấy sản phẩm phù hợp 😢. Bạn có muốn lọc thêm theo màu sắc, size, chất liệu hoặc thương hiệu không?"
+  utter_goodbye:
+    - text: "Cảm ơn bạn đã ghé MộcWear 🛍️, hẹn gặp lại lần sau 👋"
+    - text: "Bye bye 👋! Chúc bạn một ngày thật dễ thương 🌸"
+    - text: "Hẹn gặp lại bạn 😄, mong sớm được phục vụ lần nữa!"
+    - text: "Tạm biệt nhé ✨! Nhớ quay lại với MộcWear nha 💖"
+    - text: "👋 Rất vui vì được hỗ trợ bạn, hẹn gặp lại!"
+    - text: "Cảm ơn bạn 🌷, mong bạn có trải nghiệm mua sắm vui vẻ!"
+    - text: "Hẹn gặp bạn vào lần mua sắm tiếp theo 🛒🎉"
+    - text: "Bye nhé 😍, mong sớm gặp lại bạn tại MộcWear!"
+    - text: "💡 Tạm biệt! Nếu cần gợi ý size hay sản phẩm, đừng ngại quay lại nhé."
+    - text: "MộcWear luôn chào đón bạn 💎, tạm biệt và hẹn sớm gặp lại!"
+
+  utter_thank:
+    - text: "Không có gì đâu 😄, rất vui được giúp bạn!"
+    - text: "Rất vui được hỗ trợ bạn 👍"
+    - text: "Shop luôn sẵn sàng hỗ trợ bạn 24/7 ✨"
+    - text: "Cảm ơn bạn đã tin tưởng MộcWear ❤️"
+    - text: "Vui lắm khi được đồng hành cùng bạn 🛍️"
+    - text: "Chuyện nhỏ thôi 😉, lúc nào cần cứ gọi mình nhé!"
+    - text: "Cảm ơn bạn 🌸, chúc bạn mua sắm thật vui vẻ!"
+    - text: "❤️ Shop cảm ơn bạn, hi vọng bạn tìm được sản phẩm ưng ý!"
+    - text: "Thật tuyệt khi được bạn tin tưởng 💖"
+    - text: "Không có gì nha 😍, mình rất sẵn lòng giúp bạn!"
 
 actions:
+  - action_session_start
   - action_suggest_products
   - action_suggest_size
 

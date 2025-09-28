@@ -8,12 +8,12 @@ const VoucherService = {
     page = 0,
     size = 100,
     sortBy = "id",
-    sortDir = "asc",
+    sortDir = "desc",
     startDate = null,
     endDate = null,
     reducedPercent = null,
     minCondition = null,
-    status = null
+    status = 1
   ) => {
     try {
       const response = await api.get(API_URL, {

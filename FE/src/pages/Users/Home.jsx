@@ -63,9 +63,9 @@ const Layout = () => {
   const fetchProducts = async (filters) => {
     try {
       const params = {
-        page: currentPage,
-        size: pageSize,
-        sortBy: "createdDate",
+        page: 0,
+        size: 5,
+        sortBy: "productName",
         sortDir: "desc",
       };
       const response = await ProductService.getFilteredProducts(params);

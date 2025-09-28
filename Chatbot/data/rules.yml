@@ -6,6 +6,7 @@ rules:
   steps:
     - intent: greet
     - action: utter_greet
+    - action: utter_intro
 
 - rule: Tạm biệt
   steps:
@@ -17,15 +18,16 @@ rules:
     - intent: thank
     - action: utter_thank
 
+# ====== Khi bắt đầu session ======
+- rule: Bắt đầu hội thoại → auto greet + intro
+  conversation_start: true
+  steps:
+    - action: action_session_start
+    
 # ====== Tư vấn sản phẩm ======
 - rule: Gợi ý sản phẩm theo thuộc tính
   steps:
     - intent: inform_product
-    - action: action_suggest_products
-
-- rule: Gợi ý khuyến mãi
-  steps:
-    - intent: ask_promotion
     - action: action_suggest_products
 
 # ====== Tư vấn size ======
@@ -34,9 +36,3 @@ rules:
     - intent: ask_size
     - action: action_suggest_size
 
-# ====== Trường hợp fallback ======
-- rule: Không tìm thấy sản phẩm
-  condition:
-    - active_loop: null
-  steps:
-    - action: utter_no_product_found
