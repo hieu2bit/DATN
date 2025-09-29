@@ -87,14 +87,14 @@ const StatisticsService = {
         }
     },
 
-    // Lấy top 5 khách hàng mua nhiều nhất
-    getTop5Customers: async () => {
+    // Lấy Top 10 khách hàng mua nhiều nhất
+    getTop10Customers: async () => {
         try {
             const response = await api.get(`${API_BASE_URL}/top-5-customers`);
-            console.log("✅ Top 5 khách hàng:", response.data.data);
-            return response.data.data; // Trả về dữ liệu top 5 khách hàng
+            console.log("✅ Top 10 khách hàng:", response.data.data);
+            return response.data.data; // Trả về dữ liệu Top 10 khách hàng
         } catch (error) {
-            console.error("❌ Lỗi khi lấy top 5 khách hàng:", error.response?.data || error.message);
+            console.error("❌ Lỗi khi lấy Top 10 khách hàng:", error.response?.data || error.message);
             throw error;
         }
     },
@@ -111,14 +111,14 @@ const StatisticsService = {
         }
     },
 
-    // Lấy top 5 sản phẩm tồn kho nhiều nhất
-    getTop5InventoryProducts: async () => {
+    // Lấy Top 10 sản phẩm tồn kho nhiều nhất
+    getTop10InventoryProducts: async () => {
         try {
             const response = await api.get(`${API_BASE_URL}/top-5-inventory-products`);
-            console.log("✅ Top 5 sản phẩm tồn kho:", response.data.data);
+            console.log("✅ Top 10 sản phẩm tồn kho:", response.data.data);
             return response.data.data; // Trả về dữ liệu top 5 sản phẩm tồn kho
         } catch (error) {
-            console.error("❌ Lỗi khi lấy top 5 sản phẩm tồn kho:", error.response?.data || error.message);
+            console.error("❌ Lỗi khi lấy top 10 sản phẩm tồn kho:", error.response?.data || error.message);
             throw error;
         }
     },
@@ -143,6 +143,18 @@ const StatisticsService = {
             return response.data.data; // Trả về dữ liệu tổng doanh thu
         } catch (error) {
             console.error("❌ Lỗi khi lấy tổng doanh thu:", error.response?.data || error.message);
+            throw error;
+        }
+    },
+
+    // Lấy tổng lợi nhuận
+    getTotalProfit: async () => {
+        try {
+            const response = await api.get(`${API_BASE_URL}/total-profit`);
+            console.log("✅ Tổng lợi nhuận:", response.data.data);
+            return response.data.data; // Trả về dữ liệu tổng lợi nhuận
+        } catch (error) {
+            console.error("❌ Lỗi khi lấy tổng lợi nhuận:", error.response?.data || error.message);
             throw error;
         }
     },
@@ -196,13 +208,21 @@ const StatisticsService = {
     },
 
     // Lấy danh sách sản phẩm bán chạy nhất
-    getTopSellingProducts: async (startDate, endDate) => {
+    getTopSellingProducts: async () => {
         try {
-            const response = await api.get(`${API_BASE_URL}/top-5-products`, {
-                params: { startDate, endDate },
-            });
-            console.log("✅ Top sản phẩm bán chạy:", response.data.data);
-            return response.data.data; // Trả về dữ liệu top sản phẩm
+            const response = await api.get(`${API_BASE_URL}/top-5-products`);
+            const rawData = response.data.data;
+
+            // Convert từ [name, qty, revenue] → object
+            const mappedData = rawData.map(item => ({
+                productDetailName: item[0],
+                totalQuantitySold: item[1],
+                totalRevenue: item[2],
+                totalProfit: item[3],
+            }));
+
+            console.log("✅ Top sản phẩm bán chạy:", mappedData);
+            return mappedData;
         } catch (error) {
             console.error("❌ Lỗi khi lấy top sản phẩm bán chạy:", error.response?.data || error.message);
             throw error;

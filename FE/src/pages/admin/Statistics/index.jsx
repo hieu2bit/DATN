@@ -15,9 +15,8 @@ import TopInventoryProductsChart from "./components/TopInventoryProductsChart";
 const StatisticsPage = () => {
   const { role } = useSelector((state) => state.user);
   const [activeTab, setActiveTab] = useState("daily");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [totalInvoices, setTotalInvoices] = useState(0);
   const [totalAdmins, setTotalAdmins] = useState(0);
@@ -37,55 +36,40 @@ const StatisticsPage = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAll = async () => {
       try {
         const [
           totalRevenueRes,
+          totalProfitRes,
           totalCustomersRes,
           totalInvoicesRes,
           totalAdminsRes,
           totalStaffRes,
+          topSellingProducts,
         ] = await Promise.all([
           StatisticsService.getTotalRevenue(),
+          StatisticsService.getTotalProfit(),
           StatisticsService.getTotalCustomers(),
           StatisticsService.getTotalInvoices(),
           StatisticsService.getTotalAdmins(),
           StatisticsService.getTotalStaff(),
+          StatisticsService.getTopSellingProducts(),
         ]);
+
         setTotalRevenue(totalRevenueRes || 0);
+        setTotalProfit(totalProfitRes || 0);
         setTotalCustomers(totalCustomersRes || 0);
         setTotalInvoices(totalInvoicesRes || 0);
         setTotalAdmins(totalAdminsRes || 0);
         setTotalStaff(totalStaffRes || 0);
+        setTopSellingProducts(topSellingProducts || []);
         setError(null);
       } catch (err) {
-        if (err.response?.status === 403) {
-          toast.error("Vui lòng đăng nhập dưới quyền ADMIN");
-        } else {
-          toast.error("Không thể tải danh sách nhân viên. Vui lòng thử lại!");
-        }
+        setError("Không thể tải dữ liệu. Vui lòng thử lại!");
       }
     };
-    fetchData();
+    fetchAll();
   }, []);
-
-  const fetchTopSellingProducts = async () => {
-    if (!startDate || !endDate) {
-      setError("Vui lòng chọn khoảng thời gian.");
-      return;
-    }
-    try {
-      const data = await StatisticsService.getTopSellingProducts(
-        startDate,
-        endDate
-      );
-      setTopSellingProducts(data || []);
-      setError(null);
-    } catch (err) {
-      console.error("Lỗi khi tải top sản phẩm:", err);
-      setError("Không thể tải danh sách sản phẩm bán chạy.");
-    }
-  };
 
   if (error) {
     return (
@@ -101,6 +85,12 @@ const StatisticsPage = () => {
         <CardContent>
           <h2 className="text-xl font-bold">Tổng doanh thu</h2>
           <p className="text-2xl">{totalRevenue.toLocaleString("vi-VN")} đ</p>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent>
+          <h2 className="text-xl font-bold">Tổng lợi nhận</h2>
+          <p className="text-2xl">{totalProfit.toLocaleString("vi-VN")} đ</p>
         </CardContent>
       </Card>
       <Card>
@@ -174,36 +164,16 @@ const StatisticsPage = () => {
       {/* Tỷ lệ thanh toán theo phương thức
             <PaymentMethodDistributionChart /> */}
 
-      {/* Top 5 khách hàng mua nhiều nhất */}
+      {/* Top 10 khách hàng mua nhiều nhất */}
       <TopCustomersChart />
 
-      {/* Top 5 sản phẩm tồn kho nhiều nhất */}
+      {/* Top 10 sản phẩm tồn kho nhiều nhất */}
       <TopInventoryProductsChart />
 
       {/* Bộ lọc ngày và top sản phẩm bán chạy */}
       <Card className="col-span-3">
         <CardContent>
           <h2 className="text-xl font-bold">Top 5 sản phẩm bán chạy</h2>
-          <div className="flex gap-4 mb-4">
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              className="border p-2 rounded"
-            />
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="border p-2 rounded"
-            />
-            <button
-              onClick={fetchTopSellingProducts}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Lọc
-            </button>
-          </div>
           <table className="w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
@@ -211,6 +181,7 @@ const StatisticsPage = () => {
                 <th className="border p-2">Sản phẩm</th>
                 <th className="border p-2">Số lượng bán</th>
                 <th className="border p-2">Doanh thu</th>
+                <th className="border p-2">Lợi nhuận</th>
               </tr>
             </thead>
             <tbody>
@@ -226,6 +197,9 @@ const StatisticsPage = () => {
                     </td>
                     <td className="border p-2 text-right">
                       {(product.totalRevenue || 0).toLocaleString("vi-VN")} đ
+                    </td>
+                    <td className="border p-2 text-right">
+                      {(product.totalProfit || 0).toLocaleString("vi-VN")} đ
                     </td>
                   </tr>
                 ))

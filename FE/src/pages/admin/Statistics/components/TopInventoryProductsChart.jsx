@@ -10,7 +10,7 @@ const TopInventoryProductsChart = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await StatisticsService.getTop5InventoryProducts();
+                const data = await StatisticsService.getTop10InventoryProducts();
                 setTopInventoryProducts(data);
                 setError(null);
             } catch (err) {
@@ -25,7 +25,7 @@ const TopInventoryProductsChart = () => {
         return (
             <Card className="col-span-3">
                 <CardContent>
-                    <h2 className="text-xl font-bold">Top 5 sản phẩm tồn kho nhiều nhất</h2>
+                    <h2 className="text-xl font-bold">Top 10 sản phẩm tồn kho nhiều nhất</h2>
                     <p className="text-red-500">{error}</p>
                 </CardContent>
             </Card>
@@ -35,7 +35,7 @@ const TopInventoryProductsChart = () => {
     return (
         <Card className="col-span-3">
             <CardContent>
-                <h2 className="text-xl font-bold">Top 5 sản phẩm tồn kho nhiều nhất</h2>
+                <h2 className="text-xl font-bold">Top 10 sản phẩm tồn kho nhiều nhất</h2>
                 <ResponsiveContainer width="100%" height={400}>
                     <BarChart data={topInventoryProducts}>
                         <XAxis dataKey="productDetailName" />

@@ -98,8 +98,6 @@ const SalePOSPage = () => {
     indexOfLastProduct
   );
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const [orders, setOrders] = useState([]);
   const [activeOrderIndex, setActiveOrderIndex] = useState(null);
 
@@ -1663,23 +1661,45 @@ const SalePOSPage = () => {
               </tbody>
             </table>
             <div className="flex justify-center mt-4">
-              {Array.from(
-                {
-                  length: Math.ceil(filteredProducts.length / productsPerPage),
-                },
-                (_, index) => (
-                  <button
-                    key={index + 1}
-                    onClick={() => paginate(index + 1)}
-                    className={`mx-1 px-3 py-1 rounded ${currentPage === index + 1
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200"
-                      }`}
-                  >
-                    {index + 1}
-                  </button>
-                )
-              )}
+              {(() => {
+                const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+                if (totalPages <= 1) return null;
+
+                const pages = [];
+                const delta = 2; // số trang hiển thị xung quanh currentPage
+
+                let lastPage = 0;
+                for (let i = 1; i <= totalPages; i++) {
+                  if (
+                    i === 1 || // trang đầu
+                    i === totalPages || // trang cuối
+                    (i >= currentPage - delta && i <= currentPage + delta) // quanh currentPage
+                  ) {
+                    if (lastPage && i - lastPage > 1) {
+                      pages.push("...");
+                    }
+                    pages.push(i);
+                    lastPage = i;
+                  }
+                }
+
+                return pages.map((p, i) =>
+                  p === "..." ? (
+                    <span key={`ellipsis-${i}`} className="mx-1 px-3 py-1">...</span>
+                  ) : (
+                    <button
+                      key={`page-${p}`}
+                      onClick={() => setCurrentPage(p)}
+                      className={`mx-1 px-3 py-1 rounded ${currentPage === p
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 hover:bg-gray-300"
+                        }`}
+                    >
+                      {p}
+                    </button>
+                  )
+                );
+              })()}
             </div>
           </div>
         </div>
