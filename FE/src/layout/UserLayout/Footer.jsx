@@ -20,7 +20,7 @@ const Footer = () => {
     script.onload = () => {
       window.WebChat.default(
         {
-          initPayload: "/get_started",
+          initPayload: "/greet",
           customData: { language: "vi" }, // truyền metadata (vd: ngôn ngữ)
           socketUrl: "http://localhost:5005",
           socketPath: "/socket.io/",

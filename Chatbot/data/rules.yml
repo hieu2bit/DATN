@@ -2,12 +2,6 @@ version: "3.1"
 
 rules:
 # ====== Small talk ======
-- rule: Chào hỏi
-  steps:
-    - intent: greet
-    - action: utter_greet
-    - action: utter_intro
-
 - rule: Tạm biệt
   steps:
     - intent: goodbye
@@ -19,8 +13,7 @@ rules:
     - action: utter_thank
 
 # ====== Khi bắt đầu session ======
-- rule: Bắt đầu hội thoại → auto greet + intro
-  conversation_start: true
+- rule: auto greet
   steps:
     - action: action_session_start
     
@@ -35,4 +28,3 @@ rules:
   steps:
     - intent: ask_size
     - action: action_suggest_size
-

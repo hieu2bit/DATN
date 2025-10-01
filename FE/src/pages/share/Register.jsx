@@ -26,9 +26,12 @@ const RegisterForm = () => {
 
     try {
       const response = await AuthService.register(formData);
-      setMessage(response.message || "Đăng ký thành công.");
+      setMessage(response.data?.message || "Đăng ký thành công.");
+
+      // chờ 1s rồi chuyển trang
+      setTimeout(() => navigate("/login"), 1000);
     } catch (err) {
-      setError(err.message || "Không thể đăng ký.");
+      setError(err.response?.data?.message || "Không thể đăng ký.");
     }
   };
 
@@ -59,6 +62,8 @@ const RegisterForm = () => {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-gray-800">Chào mừng đến với Mộc Wear</h2>
             <p className="text-gray-600 mt-2">Đăng ký để tiếp tục mua sắm</p>
+            {message && <p className="text-green-600 text-sm">{message}</p>}
+            {error && <p className="text-red-600 text-sm">{error}</p>}
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -72,6 +77,7 @@ const RegisterForm = () => {
                 </div>
                 <input
                   type="text"
+                  name="username"
                   className="block w-full rounded-lg border border-gray-300 py-3 pl-10 pr-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                   placeholder="Nhập tên đăng ký"
                   value={formData.username}
@@ -91,6 +97,7 @@ const RegisterForm = () => {
                 </div>
                 <input
                   type="text"
+                  name="email"
                   className="block w-full rounded-lg border border-gray-300 py-3 pl-10 pr-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                   placeholder="Nhập email"
                   value={formData.email}
@@ -110,6 +117,7 @@ const RegisterForm = () => {
                 </div>
                 <input
                   type="text"
+                  name="phone"
                   className="block w-full rounded-lg border border-gray-300 py-3 pl-10 pr-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                   placeholder="Nhập số điện thoại"
                   value={formData.phone}
@@ -129,6 +137,7 @@ const RegisterForm = () => {
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   className="block w-full rounded-lg border border-gray-300 py-3 pl-10 pr-10 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
                   placeholder="Nhập mật khẩu"
                   value={formData.password}

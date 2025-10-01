@@ -218,26 +218,8 @@ class ActionSessionStart(Action):
     async def run(
         self,
         dispatcher: CollectingDispatcher,
-        tracker: Tracker,
+        tracker: "Tracker",
         domain: Dict[Text, Any]
     ) -> List[EventType]:
-        events: List[EventType] = [SessionStarted()]
-
-        # Lấy danh sách các câu trong domain
-        greet_responses = domain["responses"].get("utter_greet", [])
-        intro_responses = domain["responses"].get("utter_intro", [])
-
-        # Chọn ngẫu nhiên một câu từ mỗi nhóm
-        if greet_responses:
-            greet_text = random.choice(greet_responses).get("text", "")
-            if greet_text:
-                dispatcher.utter_message(text=greet_text)
-
-        if intro_responses:
-            intro_text = random.choice(intro_responses).get("text", "")
-            if intro_text:
-                dispatcher.utter_message(text=intro_text)
-
-        # Quay lại trạng thái lắng nghe
-        events.append(ActionExecuted("action_listen"))
-        return events
+        # Chỉ khởi tạo session
+        return [SessionStarted(), ActionExecuted("action_listen")]
